@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration  SYSTEM "log4j.dtd">
+
+<log4j:configuration debug="true" threshold="all">
+	<appender name="infoLog" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="INFO" />
+		<param name="File" value="/usr/local/tomcat/logs/interface_info.log" />
+		<param name="Append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss}  %5p  %x - %m%n" />
+		</layout>
+	</appender>
+	<appender name="errLog" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="ERROR" />
+		<param name="File" value="/usr/local/tomcat/logs/interface_err.log" />
+		<param name="Append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss}  %5p  %x - %m%n" />
+		</layout>
+	</appender>
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p %d{MM-dd HH:mm:ss} %m (%F:%L) \n" />
+		</layout>
+	</appender>
+	
+	<category name="java.sql">
+		<priority value="debug" />
+	</category>
+
+	<root>
+		<appender-ref ref="infoLog" />
+		<appender-ref ref="errLog" />
+		<!-- 
+			<appender-ref ref="STDOUT" />
+		 -->
+	</root>
+
+</log4j:configuration>

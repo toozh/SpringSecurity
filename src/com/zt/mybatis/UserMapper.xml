@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zt.mybatis.dao.UserDAO">
+	
+	<resultMap type="com.zt.model.User" id="user"></resultMap>
+	
+	<select id="findUserByUser_name" parameterType="string" resultMap="user">
+		select * from user where user_name = #{user_name}
+	</select>
+	
+	<select id="getUserList" resultMap="user">
+		select * from user 
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete from user where id = #{id}
+	</delete>
+	
+</mapper>
