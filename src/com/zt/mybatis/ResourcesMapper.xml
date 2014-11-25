@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zt.mybatis.dao.ResourcesDAO">
+	
+	<resultMap type="com.zt.model.Resources" id="resources"></resultMap>
+	
+	<select id="getAllResources" resultMap="resources">
+		select * from resources
+	</select>
+	
+	<select id="getResourcesByRoles" resultMap="resources">
+		select * from resources where id in (select rsid from roles_resources where rid in(
+			<foreach collection="roles" item="role" separator=",">
+				#{role.id}
+			</foreach>
+		))
+	</select>
+	
+	<select id="getResourcesByRole_id" parameterType="int" resultMap="resources">
+		select * from resources where id in (select rsid from roles_resources where rid = #{role_id})
+	</select>
+	
+	<delete id="deleteRolesResourcesByRoles_id" parameterType="int">
+		delete from roles_resources where rid = #{roles_id}
+	</delete>
+	
+	
+	<insert id="insertRolesResources" parameterType="com.zt.model.RolesResources">
+		insert into roles_resources(rid,rsid) values (#{rid},#{rsid})
+	</insert>
+	
+	
+</mapper>

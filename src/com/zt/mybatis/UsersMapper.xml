@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zt.mybatis.dao.UsersDAO">
+	
+	
+	<resultMap type="com.zt.model.Users" id="users"></resultMap>
+	<resultMap type="com.zt.model.Roles" id="roles"></resultMap>
+	<resultMap type="com.zt.model.Resources" id="resources"></resultMap>
+	
+	<select id="findUsersByUser_name" parameterType="string" resultMap="users">
+		select * from users where user_name = #{user_name}
+	</select>
+	
+	<select id="getUsersList" resultMap="users">
+		select * from users 
+	</select>
+	
+	<select id="getRolesByUserId" parameterType="int" resultMap="roles">
+		select * from roles where id in (select rid from users_roles where uid = #{id})
+	</select>
+	
+	
+	<select id="getResourcesByUsername" parameterType="string" resultMap="resources">
+		select * from resources where id in (select rsid from roles_resources where rid in (select rid from users_roles where uid in (select id from users where user_name = #{username})) )
+	</select>
+	
+	<select id="getByUsername" parameterType="string" resultMap="users">
+		select * from users where user_name = #{username}
+	</select>
+	
+	<insert id="insert" parameterType="com.zt.model.Users">
+		insert into users(user_name,user_pwd,insert_time,update_time) values (#{user_name},#{user_pwd},now(),now())
+	</insert>
+	
+	<update id="update" parameterType="com.zt.model.Users">
+		update users set user_name = #{user_name},user_pwd = #{user_pwd},update_time = now() where id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from users where id = #{id}
+	</delete>
+	
+</mapper>
